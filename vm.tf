@@ -11,6 +11,11 @@ resource "aws_instance" "vm" {
   vpc_security_group_ids      = [data.terraform_remote_state.vpc.outputs.security_group_id]
   associate_public_ip_address = true
 
+  lifecycle {
+    # prevent_destroy = true
+    replace_triggered_by = [ aws_s3_bucket.bucket ]
+  }
+
   tags = {
     Name = "vm-terraform"
   }
